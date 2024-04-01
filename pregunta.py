@@ -28,6 +28,4 @@ def clean_data():
     df["línea_credito"] = df["línea_credito"].str.lower().str.replace(" ","_").str.replace("-","_")
     df.drop_duplicates(inplace=True)
     df.dropna(axis=0,inplace=True)
-    df.to_csv("prueba.csv")
     return df
-clean_data()
