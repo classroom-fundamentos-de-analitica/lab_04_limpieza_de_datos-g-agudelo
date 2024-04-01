@@ -15,13 +15,13 @@ def clean_data():
     df["sexo"] = df["sexo"].str.lower()
     df["tipo_de_emprendimiento"] = df["tipo_de_emprendimiento"].str.lower()
     df["idea_negocio"] = df["idea_negocio"].str.lower()
-    df["barrio"] = df["barrio"].str.lower()
+    df["barrio"] = df["barrio"].str.lower().str.replace("_"," ").str.replace("-"," ")
     df["comuna_ciudadano"] = df["comuna_ciudadano"].astype(int)
     df["fecha_de_beneficio"] = pd.to_datetime(df["fecha_de_beneficio"],format="mixed")
     df["fecha_de_beneficio"] = df["fecha_de_beneficio"].dt.strftime('%m/%d/%Y')
     df["monto_del_credito"] = df["monto_del_credito"].str.replace("$","").str.replace(".00","").str.replace(",","").astype(int)
-    df["línea_credito"] = df["línea_credito"].str.lower()
+    df["línea_credito"] = df["línea_credito"].str.lower().str.replace("empresarial-ed.-","empresarial_ed._").str.replace("soli-diaria","solidaria")
     df.drop_duplicates(inplace=True)
     df.dropna(subset=["tipo_de_emprendimiento","barrio"],inplace=True)
+    (df.groupby("barrio").size()).to_csv("barrios.csv")
     return df
-
